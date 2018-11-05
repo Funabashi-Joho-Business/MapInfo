@@ -44,7 +44,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
 
     private GoogleMap mMap;
     private List<Marker> mMakers = new LinkedList<Marker>();
-    private PlacesAPI mPlaces;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -65,8 +64,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //PlaceAPIの初期化
-        mPlaces = new PlacesAPI(getContext());
         //EditTextのイベント設定
         ((EditText)view.findViewById(R.id.search)).setOnEditorActionListener(this);
     }
@@ -98,14 +95,14 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             Toast.makeText(getContext(), "検索開始",Toast.LENGTH_SHORT).show();
             //PlaceAPIに検索ワードを投げる
-            mPlaces.search(mMap, v.getText().toString(), new PlacesAPI.PlaceListener() {
+            PlacesAPI.search("AIzaSyC50Cv48Xtr6tMP8DLy4vepQoc-NNtODBM",mMap,"convenience_store", new PlacesAPI.PlaceListener() {
                 @Override
-                public void onPlaces(List<Place> places) {
+                public void onPlaces(PlacesAPI.PlaceData[] places) {
                     removeMarker();
                     if(places != null) {
                         //マーカーの設置
-                        for (Place p : places) {
-                            addMarker(p.getLatLng(), p.getName().toString());
+                        for (PlacesAPI.PlaceData p : places) {
+                            addMarker(new LatLng(p.geometry.location.lat,p.geometry.location.lng), p.name);
                         }
                     }else
                         Toast.makeText(getContext(), "検索エラー",Toast.LENGTH_SHORT).show();
