@@ -5,18 +5,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,14 +68,34 @@ public class PlacesAPI implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                         }
                     });
                 autoBuffer.release();
+            }
+        }.start();
 
+
+    }
+    public void searchGenre(final String apiKey,final GoogleMap map, final String genre,final PlaceListener listener){
+        final Handler handler = new Handler();
+        new Thread(){
+            @Override
+            public void run() {
+                LatLng l = map.getProjection().getVisibleRegion().latLngBounds.getCenter();
+                StringBuilder urlStrBuilder = new StringBuilder("");
+                String adress=String.format("https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&&sensor=true&rankby=distance&types=convenience_store&key=%s",
+                    l.latitude,l.longitude,apiKey);
+
+                ObjectMapper mapper = new ObjectMapper();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onPlaces(null);
+                        }
+                    });
 
             }
         }.start();
 
 
     }
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
