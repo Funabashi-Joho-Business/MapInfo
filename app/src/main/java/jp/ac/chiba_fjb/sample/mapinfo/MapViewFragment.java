@@ -95,7 +95,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             Toast.makeText(getContext(), "検索開始",Toast.LENGTH_SHORT).show();
             //PlaceAPIに検索ワードを投げる
-            PlacesAPI.search("AIzaSyC50Cv48Xtr6tMP8DLy4vepQoc-NNtODBM",mMap,"convenience_store", new PlacesAPI.PlaceListener() {
+            PlacesAPI.search("APIキー",mMap,"convenience_store", new PlacesAPI.PlaceListener() {
                 @Override
                 public void onPlaces(PlacesAPI.PlaceData[] places) {
                     removeMarker();
