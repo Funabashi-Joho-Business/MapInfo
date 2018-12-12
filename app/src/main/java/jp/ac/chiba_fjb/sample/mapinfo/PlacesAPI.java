@@ -24,12 +24,19 @@ public class PlacesAPI {
         public LatLng location;
     }
     @JsonIgnoreProperties(ignoreUnknown=true)
+    public static class Photo {
+        public int width;
+        public int height;
+        public String photo_reference;
+    }
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public static class PlaceData{
         public Geometry geometry;
         public String icon;
         public String id;
         public String name;
         public String vicinity;
+        public Photo[] photos;
     }
     @JsonIgnoreProperties(ignoreUnknown=true)
     public static class PlaceDataResult{
