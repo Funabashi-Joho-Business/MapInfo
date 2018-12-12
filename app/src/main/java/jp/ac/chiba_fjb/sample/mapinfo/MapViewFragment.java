@@ -31,7 +31,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MapViewFragment extends Fragment implements OnMapReadyCallback, TextView.OnEditorActionListener, GoogleMap.OnMarkerClickListener {
-
+    final String API_KEY = "AIzaSyBiSm2JSS1YgYWcO0Khy4Ni8CIv8kWhhMU";
 
     private GoogleMap mMap;
     private List<Marker> mMakers = new LinkedList<Marker>();
@@ -88,7 +88,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             Toast.makeText(getContext(), "検索開始",Toast.LENGTH_SHORT).show();
             //PlaceAPIに検索ワードを投げる
-            PlacesAPI.search("AIzaSyBiSm2JSS1YgYWcO0Khy4Ni8CIv8kWhhMU",mMap,"convenience_store", new PlacesAPI.PlaceListener() {
+            PlacesAPI.search(API_KEY,mMap,"convenience_store", new PlacesAPI.PlaceListener() {
                 @Override
                 public void onPlaces(PlacesAPI.PlaceData[] places) {
                     removeMarker();
@@ -114,7 +114,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Tex
             PlacesAPI.Photo photo = p.photos[0];
             AsyncImage asyncImage = new AsyncImage(imageView);
             String url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s&key=%s",
-                photo.photo_reference,"AIzaSyBiSm2JSS1YgYWcO0Khy4Ni8CIv8kWhhMU");
+                photo.photo_reference,API_KEY);
             asyncImage.execute(url);
 
         }
